@@ -1,16 +1,14 @@
-name: "Greet User Docker Action"
-description: "Salue un utilisateur avec un message personnalisé"
+name: "Docker Message Action"
+description: "Une action Docker qui génère et affiche un message personnalisé"
 inputs:
-  username:
-    description: "Nom de l'utilisateur à saluer"
-    required: true
-  greeting:
-    description: "Message de salutation"
-    required: false
-    default: "Bonjour"
-outputs:
   message:
-    description: "Le message complet de salutation"
+    description: "Le message à afficher"
+    required: true
+outputs:
+  output-message:
+    description: "Le message généré par l'action"
 runs:
   using: "docker"
   image: "Dockerfile"
+  args:
+    - ${{ inputs.message }}

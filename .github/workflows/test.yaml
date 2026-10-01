@@ -1,0 +1,17 @@
+name: "Exemple de workflow"
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  greet-user:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Exécuter l'action Docker
+      uses: ./
+      with:
+        message: "Salut de l'action Docker"

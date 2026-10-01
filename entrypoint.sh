@@ -1,22 +1,15 @@
-#!/bin/sh
-set -eu
+#!/bin/sh -l
 
-username="${INPUT_USERNAME:-}"
-greeting="${INPUT_GREETING:-Bonjour}"
+# Lire le message depuis les arguments
+MESSAGE="$1"
 
-if [ -z "$username" ]; then
-  echo "::error::L'entrée 'username' est obligatoire." >&2
-  exit 1
-fi
+mkdir -p /output
 
-message="${greeting}, ${username}!"
-printf '%s\n' "$message"
+# Générer un fichier contenant le message
+echo "Votre message : $MESSAGE" > /output/message.txt
 
-if [ -n "${GITHUB_OUTPUT:-}" ]; then
-  delimiter="ghadelimiter_$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n')"
-  {
-    printf 'message<<%s\n' "$delimiter"
-    printf '%s\n' "$message"
-    printf '%s\n' "$delimiter"
-  } >> "$GITHUB_OUTPUT"
-fi
+# Afficher le message dans les logs
+echo "Message généré : $MESSAGE"
+
+# Définir la sortie de l'action
+echo "output-message=Votre message : $MESSAGE" >> "$GITHUB_OUTPUT"
